@@ -131,7 +131,7 @@ async function unzipGradleDownload(
   const gradleFile = path.normalize(repoRoot);
   const stats = fs.statSync(gradleFile);
   if (stats.isFile()) {
-    await extractFiles(gradleFile, fileEnding, destinationFolder);
+    await extractFiles(path.resolve(gradleFile), fileEnding, destinationFolder);
     const gradleDirectory = path.join(
       destinationFolder,
       fs.readdirSync(destinationFolder)[0]

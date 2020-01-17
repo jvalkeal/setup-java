@@ -137,7 +137,7 @@ async function unzipMavenDownload(
   const mavenFile = path.normalize(repoRoot);
   const stats = fs.statSync(mavenFile);
   if (stats.isFile()) {
-    await extractFiles(mavenFile, fileEnding, destinationFolder);
+    await extractFiles(path.resolve(mavenFile), fileEnding, destinationFolder);
     const mavenDirectory = path.join(
       destinationFolder,
       fs.readdirSync(destinationFolder)[0]

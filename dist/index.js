@@ -2988,7 +2988,8 @@ function getMaven(version, mavenFile, mavenMirror = 'https://archive.apache.org/
             else {
                 core.debug('Retrieving Maven from local path');
             }
-            compressedFileExtension = compressedFileExtension || getFileEnding(mavenFile);
+            compressedFileExtension =
+                compressedFileExtension || getFileEnding(mavenFile);
             let tempDir = path.join(tempDirectory, 'temp_' + Math.floor(Math.random() * 2000000000));
             const mavenDir = yield unzipMavenDownload(mavenFile, compressedFileExtension, tempDir);
             core.debug(`maven extracted to ${mavenDir}`);
@@ -3046,7 +3047,7 @@ function unzipMavenDownload(repoRoot, fileEnding, destinationFolder) {
         const mavenFile = path.normalize(repoRoot);
         const stats = fs.statSync(mavenFile);
         if (stats.isFile()) {
-            yield extractFiles(mavenFile, fileEnding, destinationFolder);
+            yield extractFiles(path.resolve(mavenFile), fileEnding, destinationFolder);
             const mavenDirectory = path.join(destinationFolder, fs.readdirSync(destinationFolder)[0]);
             return mavenDirectory;
         }
@@ -3483,7 +3484,8 @@ function getGradle(version, gradleFile, gradleMirror = 'https://services.gradle.
             else {
                 core.debug('Retrieving Gradle from local path');
             }
-            compressedFileExtension = compressedFileExtension || getFileEnding(gradleFile);
+            compressedFileExtension =
+                compressedFileExtension || getFileEnding(gradleFile);
             let tempDir = path.join(tempDirectory, 'temp_' + Math.floor(Math.random() * 2000000000));
             const gradleDir = yield unzipGradleDownload(gradleFile, compressedFileExtension, tempDir);
             core.debug(`gradle extracted to ${gradleDir}`);
@@ -3535,7 +3537,7 @@ function unzipGradleDownload(repoRoot, fileEnding, destinationFolder) {
         const gradleFile = path.normalize(repoRoot);
         const stats = fs.statSync(gradleFile);
         if (stats.isFile()) {
-            yield extractFiles(gradleFile, fileEnding, destinationFolder);
+            yield extractFiles(path.resolve(gradleFile), fileEnding, destinationFolder);
             const gradleDirectory = path.join(destinationFolder, fs.readdirSync(destinationFolder)[0]);
             return gradleDirectory;
         }
