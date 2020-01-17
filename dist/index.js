@@ -5060,7 +5060,7 @@ function run() {
             if (mavenVersion) {
                 yield mavenInstaller.getMaven(mavenVersion, mavenFile, mavenMirror);
             }
-            const gradleVersion = core.getInput('gradle-version', { required: true });
+            const gradleVersion = core.getInput('gradle-version', { required: false });
             const gradleFile = core.getInput('gradle-file', { required: false }) || '';
             if (gradleVersion) {
                 yield gradleInstaller.getGradle(gradleVersion, gradleFile);
