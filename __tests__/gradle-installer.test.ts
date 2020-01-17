@@ -15,16 +15,13 @@ let gradleFilePath = '';
 let gradleUrl = '';
 if (process.platform === 'win32') {
   gradleFilePath = path.join(gradleDir, 'gradle_win.zip');
-  gradleUrl =
-    'https://services.gradle.org/distributions/gradle-6.0.1-bin.zip';
+  gradleUrl = 'https://services.gradle.org/distributions/gradle-6.0.1-bin.zip';
 } else if (process.platform === 'darwin') {
   gradleFilePath = path.join(gradleDir, 'gradle_mac.zip');
-  gradleUrl =
-    'https://services.gradle.org/distributions/gradle-6.0.1-bin.zip';
+  gradleUrl = 'https://services.gradle.org/distributions/gradle-6.0.1-bin.zip';
 } else {
   gradleFilePath = path.join(gradleDir, 'gradle_linux.zip');
-  gradleUrl =
-    'https://services.gradle.org/distributions/gradle-6.0.1-bin.zip';
+  gradleUrl = 'https://services.gradle.org/distributions/gradle-6.0.1-bin.zip';
 }
 
 describe('gradle installer tests', () => {
@@ -110,10 +107,7 @@ describe('gradle installer tests', () => {
     await io.mkdirP(gradleDir);
     fs.writeFileSync(`${gradleDir}.complete`, 'hello');
     // This will throw if it doesn't find it in the cache (because no such version exists)
-    await installer.getGradle(
-      '250',
-      'path shouldnt matter, found in cache'
-    );
+    await installer.getGradle('250', 'path shouldnt matter, found in cache');
     return;
   });
 

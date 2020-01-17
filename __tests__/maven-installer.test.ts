@@ -54,7 +54,11 @@ describe('maven installer tests', () => {
   }, 100000);
 
   it('Installs version of Maven from maven-file if no matching version is installed', async () => {
-    await installer.getMaven('3.6.3', mavenFilePath, 'https://archive.apache.org/dist/maven/maven-3/');
+    await installer.getMaven(
+      '3.6.3',
+      mavenFilePath,
+      'https://archive.apache.org/dist/maven/maven-3/'
+    );
     const mavenDir = path.join(toolDir, 'maven', '3.6.3', 'x64');
 
     expect(fs.existsSync(`${mavenDir}.complete`)).toBe(true);
@@ -110,10 +114,7 @@ describe('maven installer tests', () => {
     await io.mkdirP(mavenDir);
     fs.writeFileSync(`${mavenDir}.complete`, 'hello');
     // This will throw if it doesn't find it in the cache (because no such version exists)
-    await installer.getMaven(
-      '250',
-      'path shouldnt matter, found in cache'
-    );
+    await installer.getMaven('250', 'path shouldnt matter, found in cache');
     return;
   });
 

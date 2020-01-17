@@ -40,9 +40,7 @@ export async function getGradle(
     if (!gradleFile) {
       core.debug('Downloading Gradle from gradle.org');
       let http: httpm.HttpClient = new httpm.HttpClient('spring-build-action');
-      let contents = await (
-        await http.get(gradleMirror)
-      ).readBody();
+      let contents = await (await http.get(gradleMirror)).readBody();
       let refs: string[] = [];
       const regex = /<span class=\"name\">gradle-([\d\.]+)-bin\.zip<\/span>/g;
       let match = regex.exec(contents);
@@ -60,7 +58,8 @@ export async function getGradle(
     } else {
       core.debug('Retrieving Gradle from local path');
     }
-    compressedFileExtension = compressedFileExtension || getFileEnding(gradleFile);
+    compressedFileExtension =
+      compressedFileExtension || getFileEnding(gradleFile);
     let tempDir: string = path.join(
       tempDirectory,
       'temp_' + Math.floor(Math.random() * 2000000000)
@@ -157,11 +156,8 @@ function getDownloadInfo(
   // Filter by platform
   refs.forEach(ref => {
     if (semver.satisfies(ref, version)) {
-      core.debug(`VersionMap add  ${ref} ${version}`)
-      versionMap.set(
-        ref,
-        `${gradleMirror}gradle-${ref}-bin${extension}`
-      );
+      core.debug(`VersionMap add  ${ref} ${version}`);
+      versionMap.set(ref, `${gradleMirror}gradle-${ref}-bin${extension}`);
     }
   });
 
@@ -171,9 +167,9 @@ function getDownloadInfo(
   for (const entry of versionMap.entries()) {
     const entryVersion = entry[0];
     const entryUrl = entry[1];
-    core.debug(`VersionMap Entry ${entryVersion} ${entryUrl}`)
+    core.debug(`VersionMap Entry ${entryVersion} ${entryUrl}`);
     if (semver.gt(entryVersion, curVersion)) {
-      core.debug(`VersionMap semver gt ${entryVersion} ${entryUrl}`)
+      core.debug(`VersionMap semver gt ${entryVersion} ${entryUrl}`);
       curUrl = entryUrl;
       curVersion = entryVersion;
     }

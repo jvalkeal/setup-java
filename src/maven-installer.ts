@@ -40,9 +40,7 @@ export async function getMaven(
     if (!mavenFile) {
       core.debug('Downloading Maven from Apache Mirror');
       let http: httpm.HttpClient = new httpm.HttpClient('spring-build-action');
-      let contents = await (
-        await http.get(mavenMirror)
-      ).readBody();
+      let contents = await (await http.get(mavenMirror)).readBody();
       let refs: string[] = [];
       const regex = /<a href=\"\d.*\">([\d\.]+)\/<\/a>/g;
       let match = regex.exec(contents);
@@ -60,7 +58,8 @@ export async function getMaven(
     } else {
       core.debug('Retrieving Maven from local path');
     }
-    compressedFileExtension = compressedFileExtension || getFileEnding(mavenFile);
+    compressedFileExtension =
+      compressedFileExtension || getFileEnding(mavenFile);
     let tempDir: string = path.join(
       tempDirectory,
       'temp_' + Math.floor(Math.random() * 2000000000)
@@ -121,7 +120,9 @@ async function extractFiles(
   } else if ('.zip' === fileEnding) {
     await tc.extractZip(file, destinationFolder);
   } else {
-    throw new Error(`Failed to extract ${file} - only .zip or .tar.gz supported`);
+    throw new Error(
+      `Failed to extract ${file} - only .zip or .tar.gz supported`
+    );
   }
 }
 
@@ -166,7 +167,7 @@ function getDownloadInfo(
   // Filter by platform
   refs.forEach(ref => {
     if (semver.satisfies(ref, version)) {
-      core.debug(`VersionMap add  ${ref} ${version}`)
+      core.debug(`VersionMap add  ${ref} ${version}`);
       versionMap.set(
         ref,
         `${mavenMirror}${ref}/binaries/apache-maven-${ref}-bin${extension}`
@@ -180,9 +181,9 @@ function getDownloadInfo(
   for (const entry of versionMap.entries()) {
     const entryVersion = entry[0];
     const entryUrl = entry[1];
-    core.debug(`VersionMap Entry ${entryVersion} ${entryUrl}`)
+    core.debug(`VersionMap Entry ${entryVersion} ${entryUrl}`);
     if (semver.gt(entryVersion, curVersion)) {
-      core.debug(`VersionMap semver gt ${entryVersion} ${entryUrl}`)
+      core.debug(`VersionMap semver gt ${entryVersion} ${entryUrl}`);
       curUrl = entryUrl;
       curVersion = entryVersion;
     }
