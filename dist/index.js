@@ -5989,14 +5989,14 @@ function extractFiles(file, fileEnding, destinationFolder) {
             throw new Error(`Failed to extract ${file} - it is a directory`);
         }
         if ('.tar' === fileEnding || '.tar.gz' === fileEnding) {
-            yield tc.extractTar(file, destinationFolder);
+            yield tc.extractTar(path.resolve(file), destinationFolder);
         }
         else if ('.zip' === fileEnding) {
-            yield tc.extractZip(file, destinationFolder);
+            yield tc.extractZip(path.resolve(file), destinationFolder);
         }
         else {
             // fall through and use sevenZip
-            yield tc.extract7z(file, destinationFolder);
+            yield tc.extract7z(path.resolve(file), destinationFolder);
         }
     });
 }
